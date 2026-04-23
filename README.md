@@ -7,6 +7,11 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+## This is a shopping cart website demo created for CSC - 471 Database Principles.
+To use this demo, open it in the Laravel Herd software and enter the link http://shoppingcart.test/ into your browser.
+This database demo does not have any authentication, so any user can create or remove products.
+
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:

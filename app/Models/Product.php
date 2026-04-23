@@ -6,12 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+    public function getRouteKeyName()
+{
+    return 'sku';
+}
     protected $fillable = [
     'sku',
     'name',
     'description',
     'price',
     'image',
+    'stock'
 ];
 }
 

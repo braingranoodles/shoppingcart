@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cart;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -12,54 +12,69 @@ class CartController extends Controller
      */
     public function index()
     {
-        //
+        $cart = session()->get('cart', []);
+        return view('cart.index', compact('cart'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Add a product to new cart
      */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function add($sku)
     {
-        //
-    }
+        $product = Product::where('sku', $sku)->firstOrFail();
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Cart $cart)
-    {
-        //
-    }
+        $cart = session()->get('cart', []);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Cart $cart)
-    {
-        //
-    }
+        if (isset($cart[$sku])) {
+            $cart[$sku]['quantity']++;
+        } else {
+            $cart[$sku] = [
+                'sku' => $product->sku,
+                'name' => $product->name,
+                'price' => $product->price,
+                'image' => $product->image,
+                'quantity' => 1
+            ];
+        }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Cart $cart)
-    {
-        //
-    }
+        session()->put('cart', $cart);
 
-    /**
-     * Remove the specified resource from storage.
+        return redirect('/cart');
+    }
+    /** 
+     * Update product stock
      */
-    public function destroy(Cart $cart)
+    public function update(Request $request, $sku)
     {
-        //
+        $cart = session()->get('cart', []);
+
+        if (isset($cart[$sku])) {
+            $quantity = (int) $request->quantity;
+
+            if ($quantity <= 0) {
+                unset($cart[$sku]);
+            } else {
+                $cart[$sku]['quantity'] = $quantity;
+            }
+
+            session()->put('cart', $cart);
+        }
+
+        return redirect('/cart');
+    }
+    /**
+     * DELTE IT
+     */
+    public function remove($sku)
+    {
+        $cart = session()->get('cart', []);
+
+        if (isset($cart[$sku])) {
+            unset($cart[$sku]);
+            session()->put('cart', $cart);
+        }
+
+        return redirect('/cart');
     }
 }

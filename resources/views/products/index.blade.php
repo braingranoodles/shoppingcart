@@ -36,7 +36,7 @@
                 <form method="POST" action="/cart/add/{{ $product->sku }}">
                 @csrf
                 <button type="submit">Add to Cart</button>
-                <button <a href="/products/{{ $product->sku }}/edit">Edit</a> </button>
+                <a href="/products/{{ $product->sku }}/edit" class="btn btn-primary">Edit</a>
             </form>
 
 
